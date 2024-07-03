@@ -1,0 +1,37 @@
+.dashboard-layout {
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-header .logo {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.dashboard-content {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f0f2f5;
+  min-height: calc(100vh - 64px - 70px);
+}
+
+.greeting-container {
+  text-align: center;
+}
+
+.dashboard-footer {
+  text-align: center;
+}
+
+.user-info {
+  color: #fff;
+}

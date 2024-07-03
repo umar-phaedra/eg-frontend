@@ -1,22 +1,34 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Row, Col, Typography } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
+import { ApiTypes } from '../../services/types/api-types';
+import { apis } from '../../services/apis';
+import { useAuth } from '../../context/auth-context';
+import { routes } from '../../services/constants';
 import './login.css';
 
 const { Title } = Typography;
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-    // Implement login logic here
-    // navigate('/dashboard');
+  const handleLogin = async (values: ApiTypes.Login) => {
+    try {
+      const resp = await apis.login(values);
+      const {access_token = '', user = {}} = resp.data;
+      login(access_token, user);
+      toast.success('Login Successful.');
+      navigate(routes.dashboard);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+  const handleSignup = () => {
+    navigate(routes.signup);
   };
 
   return (
@@ -27,8 +39,7 @@ const Login: React.FC = () => {
           <Form
             name="login"
             initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
+            onFinish={handleLogin}
           >
             <Form.Item
               name="email"
@@ -56,6 +67,12 @@ const Login: React.FC = () => {
               </Button>
             </Form.Item>
           </Form>
+          <div className="signup-area">
+            <Typography.Text>Don't have an account?</Typography.Text>
+            <Button type="link" onClick={handleSignup}>
+              Sign Up
+            </Button>
+          </div>
         </div>
       </Col>
     </Row>
