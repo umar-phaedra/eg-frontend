@@ -5,11 +5,11 @@
 The Easy Generator Authentication App is a React-based web application designed to provide user authentication functionalities such as signup, login, and a protected dashboard. The app uses Ant Design for the UI components and React Context for managing authentication state. This project is created by Umar Farooq.
 
 # Features
->Signup: Users can create an account by providing their name, email, and password.
->Login: Registered users can log in using their email and password.
->Dashboard: Authenticated users are welcomed with a greeting message and have the option to log out.
->Responsive Design: The app is responsive and works well on different screen sizes.
->Notification: User actions such as login and logout are accompanied by toast notifications.
+- > Signup: Users can create an account by providing their name, email, and password.
+- > Login: Registered users can log in using their email and password.
+- > Dashboard: Authenticated users are welcomed with a greeting message and have the option to log out.
+- > Responsive Design: The app is responsive and works well on different screen sizes.
+- > Notification: User actions such as login and logout are accompanied by toast notifications.
 
 ## Available Scripts
 
