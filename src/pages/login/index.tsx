@@ -7,6 +7,7 @@ import { ApiTypes } from '../../services/types/api-types';
 import { apis } from '../../services/apis';
 import { useAuth } from '../../context/auth-context';
 import { routes } from '../../services/constants';
+import { useLoader } from '../../services/utils/loader-hook';
 import './login.css';
 
 const { Title } = Typography;
@@ -14,17 +15,21 @@ const { Title } = Typography;
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { loading, invokeApi } = useLoader()
 
   const handleLogin = async (values: ApiTypes.Login) => {
-    try {
-      const resp = await apis.login(values);
-      const {access_token = '', user = {}} = resp.data;
-      login(access_token, user);
-      toast.success('Login Successful.');
-      navigate(routes.dashboard);
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message);
-    }
+    invokeApi({
+      api: async () => await apis.login(values),
+      callBack: (data: ApiTypes.AuthResponse) => {
+        const { access_token = '', user } = data;
+        login(access_token, user)
+        toast.success('Login Successful.');
+        navigate(routes.dashboard); 
+      },
+      errorCallback: (err: any) => {
+        toast.error(err?.response?.data?.message || 'Login failed');
+      }
+    });
   };
 
   const handleSignup = () => {
@@ -44,10 +49,10 @@ const Login: React.FC = () => {
             <Form.Item
               name="email"
               rules={[
-                { 
-                  required: true, 
-                  message: 'Please input your email!', 
-                  type: 'email' 
+                {
+                  required: true,
+                  message: 'Please input your email!',
+                  type: 'email'
                 }
               ]}
             >
@@ -62,7 +67,7 @@ const Login: React.FC = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="login-button">
+              <Button loading={loading} type="primary" htmlType="submit" className="login-button">
                 Login
               </Button>
             </Form.Item>

@@ -7,6 +7,7 @@ import { apis } from '../../services/apis';
 import { ApiTypes } from '../../services/types/api-types';
 import { routes } from '../../services/constants';
 import { useAuth } from '../../context/auth-context';
+import { useLoader } from '../../services/utils/loader-hook';
 import './signup.css';
 
 const { Title, Text } = Typography;
@@ -14,24 +15,28 @@ const { Title, Text } = Typography;
 const Signup: React.FC = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
-  const {login} = useAuth()
+  const { login } = useAuth()
+  const { loading, invokeApi } = useLoader()
 
   const handleSignup = async (values: ApiTypes.Signup) => {
-    try {
-      const resp = await apis.signup(values)
-      const {access_token = '', user = {}} = resp.data 
-      login(access_token, user)
-      toast.success('Signup Successfully.')
-      navigate(routes.dashboard);
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message)
-    }
+      invokeApi({
+        api: async () => await apis.signup(values),
+        callBack: (data: ApiTypes.AuthResponse) => {
+          const { access_token = '', user } = data
+          login(access_token, user)
+          toast.success('Signup Successfully.')
+          navigate(routes.dashboard);
+        },
+        errorCallback:(err: any) => {
+          toast.error(err?.response?.data?.message)
+        }
+      })
   };
 
   const handleLogin = () => {
     navigate(routes.login)
   }
- 
+
   const validatePassword = (rule: any, value: string) => {
     if (!value) {
       return Promise.reject('Please input your password!');
@@ -105,7 +110,7 @@ const Signup: React.FC = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="signup-button">
+              <Button loading={loading} type="primary" htmlType="submit" className="signup-button">
                 Sign Up
               </Button>
             </Form.Item>
