@@ -1,6 +1,15 @@
-# Getting Started with Create React App
+# Easy Generator Authentication App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Overview
+
+The Easy Generator Authentication App is a React-based web application designed to provide user authentication functionalities such as signup, login, and a protected dashboard. The app uses Ant Design for the UI components and React Context for managing authentication state. This project is created by Umar Farooq.
+
+# Features
+>Signup: Users can create an account by providing their name, email, and password.
+>Login: Registered users can log in using their email and password.
+>Dashboard: Authenticated users are welcomed with a greeting message and have the option to log out.
+>Responsive Design: The app is responsive and works well on different screen sizes.
+>Notification: User actions such as login and logout are accompanied by toast notifications.
 
 ## Available Scripts
 
@@ -13,11 +22,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
